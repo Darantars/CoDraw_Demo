@@ -15,13 +15,26 @@ namespace CoDraw_Demo.Desktop.ViewModels
     {
         private bool _isRightSplitViewOpen;
         private bool _isLeftSplitViewOpen;
-
+        private CanvaViewModel _canvaViewModel;
+        private ControlsToglePanelViewModel _controlsToglePanelViewModel;
+        
+        public CanvaViewModel ActualCanvaViewModel
+        {
+            get => _canvaViewModel;
+            set => this.RaiseAndSetIfChanged(ref _canvaViewModel, value);
+        }
+        
+        public ControlsToglePanelViewModel ActualControlsToglePanelViewModel
+        {
+            get => _controlsToglePanelViewModel;
+            set => this.RaiseAndSetIfChanged(ref _controlsToglePanelViewModel, value);
+        }
         public bool IsRightSplitViewOpen
         {
             get => _isRightSplitViewOpen;
             set => this.RaiseAndSetIfChanged(ref _isRightSplitViewOpen, value);
         }
-
+        
         public bool IsLeftSplitViewOpen
         {
             get => _isLeftSplitViewOpen;
@@ -33,6 +46,9 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         public MainConfiguratorViewModel()
         {
+            ActualCanvaViewModel= new CanvaViewModel();
+            ActualControlsToglePanelViewModel = new ControlsToglePanelViewModel(this);
+            
             IsRightSplitViewOpen = true;
             IsLeftSplitViewOpen = true;
             ChangeLeftPaneWidthCommand = ReactiveCommand.Create(ChangeLeftPaneWidth);

@@ -16,8 +16,8 @@ namespace CoDraw_Demo.Desktop.Views.Configurator
     {
         public MainConfiguratorView()
         {
-            InitializeComponent();
             DataContext = new MainConfiguratorViewModel();
+            InitializeComponent();
         }
     }
 }

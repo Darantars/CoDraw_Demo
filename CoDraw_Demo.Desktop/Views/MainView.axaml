@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:confviews="clr-namespace:CoDraw_Demo.Desktop.Views.Configurator"
              xmlns:vm="clr-namespace:CoDraw_Demo.Desktop.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             MaxWidth="1600"
+             mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="450"
              x:Class="CoDraw_Demo.Desktop.Views.MainView"
              x:DataType="vm:MainViewModel">
   <Design.DataContext>
