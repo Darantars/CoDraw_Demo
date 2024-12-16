@@ -2,7 +2,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="450"
              x:Class="CoDraw_Demo.Desktop.Views.Configurator.ControlPropertyView">
-    Contols Option
+	<StackPanel>
+		<TextBlock Text="Width:"/>
+		<TextBox Name="WidthTextBox" />
+		<TextBlock Text="Height:"/>
+		<TextBox Name="HeightTextBox" />
+		<TextBlock Text="Color:"/>
+		<ColorPicker Name="ColorPicker" />
+		<TextBlock Text="Opacity:"/>
+		<Slider Name="OpacitySlider" />
+		<Button Content="Delete" />
+	</StackPanel>
 </UserControl>

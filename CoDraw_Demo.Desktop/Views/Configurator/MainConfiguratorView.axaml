@@ -14,7 +14,7 @@
 	            HorizontalAlignment="Stretch">
 		<SplitView Name="LeftSplitView"
                    DisplayMode="CompactOverlay"
-                   CompactPaneLength="48"
+                   CompactPaneLength="90"
                    OpenPaneLength="200"
                    IsPaneOpen="{Binding IsLeftSplitViewOpen, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
 			<SplitView.Pane>
@@ -33,7 +33,7 @@
 			</SplitView.Pane>
 		
 			<confviews:CanvaView 
-				MinWidth="1152"/>
+				MinWidth="1090"/>
 		</SplitView>
 		<DockPanel
 			Width="200"

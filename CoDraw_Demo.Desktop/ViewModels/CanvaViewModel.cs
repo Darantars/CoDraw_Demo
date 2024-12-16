@@ -29,6 +29,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         public CanvaViewModel()
         {
+            
         }
 
         private void InitializeCanvasEvents()
@@ -37,7 +38,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
             {
                 DesignCanvas.PointerPressed += OnPointerPressed;
                 DesignCanvas.PointerMoved += OnPointerMoved;
-                /*DesignCanvas.PointerReleased += OnPointerReleased;*/
+                DesignCanvas.PointerReleased += OnPointerReleased;
             }
         }
 
@@ -48,7 +49,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
             if (draggedControl != null)
             {
                 clickPosition = position;
-                /*DesignCanvas.CapturePointer(e.Pointer);*/
+                e.Pointer.Capture(DesignCanvas); 
             }
         }
 
@@ -63,16 +64,16 @@ namespace CoDraw_Demo.Desktop.ViewModels
             }
         }
 
-        /*
         private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
         {
             if (draggedControl != null)
             {
-                DesignCanvas.ReleasePointerCapture(e.Pointer);
+                e.Pointer.Capture(null); // Corrected line
                 draggedControl = null;
             }
         }
-        */
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

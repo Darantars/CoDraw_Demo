@@ -8,10 +8,13 @@
 
         <StackPanel>
         <Button Content="Rectangle" 
+				Width="90"
                 Command="{Binding OnRectangleCommand}"/>
         <Button Content="Ellipse" 
+				Width="90"
                 Command="{Binding OnEllipseCommand}"/>
         <Button Content="TextBlock" 
+				Width="90"
                 Command="{Binding OnTextBlockCommand}"/>
         <!-- Add more controls as needed -->
     </StackPanel>
