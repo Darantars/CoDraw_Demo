@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoDraw_Demo.Core", "CoDraw_Demo.Core\CoDraw_Demo.Core.csproj", "{6F3C1166-B4E3-4167-A6F6-DB90A55B8A49}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoDraw_Demo.Desktop", "CoDraw_Demo.Desktop\CoDraw_Demo.Desktop.csproj", "{5EDD5193-A811-4417-83E3-9D2DB9C90773}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F3C1166-B4E3-4167-A6F6-DB90A55B8A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F3C1166-B4E3-4167-A6F6-DB90A55B8A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F3C1166-B4E3-4167-A6F6-DB90A55B8A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F3C1166-B4E3-4167-A6F6-DB90A55B8A49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EDD5193-A811-4417-83E3-9D2DB9C90773}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EDD5193-A811-4417-83E3-9D2DB9C90773}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EDD5193-A811-4417-83E3-9D2DB9C90773}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EDD5193-A811-4417-83E3-9D2DB9C90773}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

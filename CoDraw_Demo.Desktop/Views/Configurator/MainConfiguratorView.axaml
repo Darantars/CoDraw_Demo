@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:confviews="clr-namespace:CoDraw_Demo.Desktop.Views.Configurator"
+             xmlns:vm="clr-namespace:CoDraw_Demo.Desktop.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             MaxWidth="1600"
+             x:DataType="vm:MainConfiguratorViewModel"
+             x:Class="CoDraw_Demo.Desktop.Views.Configurator.MainConfiguratorView">
+	<Design.DataContext>
+		<vm:MainConfiguratorViewModel />
+	</Design.DataContext>
+	<StackPanel Orientation="Horizontal"
+	            HorizontalAlignment="Stretch">
+		<SplitView Name="LeftSplitView"
+                   DisplayMode="CompactOverlay"
+                   CompactPaneLength="48"
+                   OpenPaneLength="200"
+                   
+                   IsPaneOpen="{Binding IsLeftSplitViewOpen, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+			<SplitView.Pane>
+				<StackPanel>
+					<Button
+                        Name="ToggleLeftPanelButton"
+                        Content="&#xE700;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="16"
+                        Command="{Binding ChangeLeftPaneWidthCommand}">
+					</Button>
+					<CheckBox
+                        IsChecked="{Binding IsLeftSplitViewOpen, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+					</CheckBox>
+				</StackPanel>
+			</SplitView.Pane>
+		
+			<confviews:CanvaView 
+				MinWidth="400"/>
+		</SplitView>
+		<DockPanel
+			Width="200"
+			Background="DimGray">
+			<Button>1212</Button>
+		</DockPanel>
+	</StackPanel>
+</UserControl>
