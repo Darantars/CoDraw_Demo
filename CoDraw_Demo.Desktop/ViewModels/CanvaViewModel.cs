@@ -55,7 +55,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         private void OnPointerMoved(object sender, PointerEventArgs e)
         {
-            if (draggedControl != null && e.Pointer.Captured == DesignCanvas)
+            if (draggedControl != null/* && e.Pointer.Captured == DesignCanvas*/)
             {
                 var position = e.GetPosition(DesignCanvas);
                 var offset = position - clickPosition;

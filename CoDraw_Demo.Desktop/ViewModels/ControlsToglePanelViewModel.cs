@@ -22,7 +22,11 @@ public class ControlsToglePanelViewModel : ViewModelBase
     
     private void OnRectangleClick()
     {
-        var rectangle = new Rectangle { Width = 100, Height = 100, Fill = Brushes.Red };
+        var rectangle = new Rectangle { 
+            Width = 100, 
+            Height = 100, 
+            Fill = Brushes.Red,
+        };
         Canvas.SetLeft(rectangle, ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Width /2);
         Canvas.SetTop(rectangle, ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Height /2);
         ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(rectangle);
@@ -30,7 +34,11 @@ public class ControlsToglePanelViewModel : ViewModelBase
 
     private void OnEllipseClick()
     {
-        var ellipse = new Ellipse { Width = 100, Height = 100, Fill = Brushes.Blue };
+        Control ellipse = new Ellipse {
+            Width = 100, 
+            Height = 100, 
+            Fill = Brushes.Blue
+        };
         Canvas.SetLeft(ellipse, ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Width / 2);
         Canvas.SetTop(ellipse, ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Height / 2);
         ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(ellipse);
@@ -38,7 +46,11 @@ public class ControlsToglePanelViewModel : ViewModelBase
 
     private void OnTextBlockClick()
     {
-        var textBlock = new TextBlock { Width = 100, Height = 30, Text = "Sample Text" };
+        var textBlock = new TextBlock { 
+            Width = 100, 
+            Height = 30, 
+            Text = "Sample Text" 
+        };
         Canvas.SetLeft(textBlock, ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Width / 2);
         Canvas.SetTop(textBlock, ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Height / 2);
         ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(textBlock);

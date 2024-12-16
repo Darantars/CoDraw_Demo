@@ -9,5 +9,6 @@
         <vm:CanvaViewModel/>
     </Design.DataContext>
     <Canvas  Name="DesignCanvas" Background="LightGray">
+		
     </Canvas>
 </UserControl>
