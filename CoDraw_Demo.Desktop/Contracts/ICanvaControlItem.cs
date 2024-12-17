@@ -7,11 +7,20 @@ using System.Threading.Tasks;
 
 namespace CoDraw_Demo.Desktop.Contracts
 {
-    internal interface ICanvaControlItem
+    public class CanvaControlItem   
     {
         Control control { get; }
-        int x { get; }
-        int y { get; }
-        int z { get; }
+        double x { get; }
+        double y { get; }
+        double z { get; }
+
+        public CanvaControlItem (double controlX, double controlY, double controlZ, Control innerControl) 
+        {
+            control = innerControl;
+            x = controlX;
+            y = controlY;
+            z = controlZ;
+            
+        }
     }
 }

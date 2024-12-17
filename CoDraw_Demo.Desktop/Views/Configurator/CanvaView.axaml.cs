@@ -16,7 +16,7 @@ namespace CoDraw_Demo.Desktop.Views.Configurator
         private void CanvaView_Loaded(object sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
             var designCanvas = this.FindControl<Canvas>("DesignCanvas");
-            (DataContext as MainConfiguratorViewModel).ActualCanvaViewModel.DesignCanvas = designCanvas;
+            (DataContext as CanvaViewModel).DesignCanvas = designCanvas;
         }
 
         private void InitializeComponent()

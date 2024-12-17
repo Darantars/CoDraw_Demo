@@ -33,12 +33,12 @@
 			</SplitView.Pane>
 		
 			<confviews:CanvaView 
-				MinWidth="1090"/>
+				MinWidth="1090" DataContext="{Binding ActualCanvaViewModel}"/>
 		</SplitView>
 		<DockPanel
 			Width="200"
 			Background="DimGray">
-			<confviews:ControlPropertyView  DataContext="{Binding ActualCanvaViewModel}">
+			<confviews:ControlPropertyView >
 				
 			</confviews:ControlPropertyView>
 		</DockPanel>

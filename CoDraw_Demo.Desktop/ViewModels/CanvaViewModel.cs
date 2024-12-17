@@ -1,9 +1,13 @@
+using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Controls.ApplicationLifetimes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CoDraw_Demo.Desktop.Contracts;
+using Avalonia.Controls.Shapes;
+using Avalonia.Media;
 
 namespace CoDraw_Demo.Desktop.ViewModels
 {
@@ -12,6 +16,22 @@ namespace CoDraw_Demo.Desktop.ViewModels
         private Control draggedControl;
         private Point clickPosition;
         public Canvas designCanvas;
+        
+        
+        private ObservableCollection<CanvaControlItem> controlsColection;
+
+        public ObservableCollection<CanvaControlItem> ControlsColection
+        {
+            get => controlsColection;
+            set
+            {
+                if (controlsColection != value)
+                {
+                    controlsColection = value;
+                    OnPropertyChanged(nameof(ControlsColection));
+                }
+            }
+        }
 
         public Canvas DesignCanvas
         {
@@ -29,7 +49,15 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         public CanvaViewModel()
         {
-            
+            Control ellipse = new Ellipse
+            {
+                Width = 100,
+                Height = 100,
+                Fill = Brushes.Blue
+            };
+            double x = 500;
+            double y = 500;
+            ControlsColection = new ObservableCollection<CanvaControlItem>() { new CanvaControlItem(x, y, 1, ellipse) };
         }
 
         private void InitializeCanvasEvents()
