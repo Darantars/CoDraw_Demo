@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using ReactiveUI;
 using System.Collections.Specialized;
 using CoDraw_Demo.Desktop.Models;
+using System;
 
 namespace CoDraw_Demo.Desktop.ViewModels
 {
@@ -48,6 +49,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
                     designCanvas = value;
                     OnPropertyChanged();
                     InitializeCanvasEvents();
+                    Test500();
                 }
             }
         }
@@ -110,7 +112,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
             if (hitControl != null)
             {
                 if(hitControl != null)
-                    hightLitedControl = (Canvas)hitControl.Parent;
+                    hightLitedControl = hitControl.Parent as Canvas;
                 if (hightLitedControl != null)
                 {
                     clickPosition = position;
@@ -141,6 +143,24 @@ namespace CoDraw_Demo.Desktop.ViewModels
         }
 
 
+        //Test
+        public void Test500()
+        {
+            for (int i = 0; i < 500; i++)
+            {
+                Canvas newControlCanva = new Canvas
+                {
+                    Height = 55,
+                    Width = 55,
+                    Name = Guid.NewGuid().ToString(),
+
+                };
+                Canvas.SetTop(newControlCanva, 555);
+                Canvas.SetLeft(newControlCanva, 555);
+                newControlCanva.Children.Add( new Rectangle() { Width = 10, Height = 10, Fill = Avalonia.Media.Brush.Parse("Red") });
+                DesignCanvas.Children.Add(newControlCanva);
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -148,5 +168,8 @@ namespace CoDraw_Demo.Desktop.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+        
     }
 }
