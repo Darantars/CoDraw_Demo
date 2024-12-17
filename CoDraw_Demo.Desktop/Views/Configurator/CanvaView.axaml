@@ -4,18 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:vm="clr-namespace:CoDraw_Demo.Desktop.ViewModels"
+             xmlns:controls="clr-namespace:CoDraw_Demo.Desktop.Controls"
              x:Class="CoDraw_Demo.Desktop.Views.Configurator.CanvaView">
     <Design.DataContext>
         <vm:CanvaViewModel/>
+        
     </Design.DataContext>
     <Canvas  Name="DesignCanvas" Background="LightGray">
-		<ItemsControl ItemsSource="{Binding ControlsColection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" >
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<ContentControl Content="{Binding control}"
-                                    Canvas.Left="{Binding x}" Canvas.Top="{Binding y}" />
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
     </Canvas>
 </UserControl>

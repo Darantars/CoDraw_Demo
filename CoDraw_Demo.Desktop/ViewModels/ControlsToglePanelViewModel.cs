@@ -33,7 +33,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
         double x = 500;
         double y = 500;
         /*ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(rectangle);*/
-        ActualMainConfiguratorViewModel.ActualCanvaViewModel.ControlsColection.Add(new CanvaControlItem(x, y, 1, rectangle));
+        ActualMainConfiguratorViewModel.ActualCanvaViewModel.AddControl(new CanvaControlItem(x, y, 1, rectangle));
     }
 
     private void OnEllipseClick()
@@ -47,7 +47,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
         double x = 500;
         double y = 500;
         //ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(ellipse);
-        ActualMainConfiguratorViewModel.ActualCanvaViewModel.ControlsColection.Add(new CanvaControlItem(x, y, 1, ellipse));
+        ActualMainConfiguratorViewModel.ActualCanvaViewModel.AddControl(new CanvaControlItem(x, y, 1, ellipse));
     }
 
     private void OnTextBlockClick()
@@ -61,7 +61,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
         double x = 500;
         double y = 500;
         //ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(textBlock);
-        ActualMainConfiguratorViewModel.ActualCanvaViewModel.ControlsColection.Add(new CanvaControlItem(x, y, 1, textBlock));
+        ActualMainConfiguratorViewModel.ActualCanvaViewModel.AddControl(new CanvaControlItem(x, y, 1,textBlock));
     }
 
 }

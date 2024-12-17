@@ -2,46 +2,27 @@ using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Controls.ApplicationLifetimes;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CoDraw_Demo.Desktop.Contracts;
-using Avalonia.Controls.Shapes;
-using Avalonia.Media;
+using System.Linq;
 
 namespace CoDraw_Demo.Desktop.ViewModels
 {
     public class CanvaViewModel : INotifyPropertyChanged
     {
-        private Control draggedControl;
+        private CanvaControlItem draggedControlItem;
+        private Canvas _designCanvas;
         private Point clickPosition;
-        public Canvas designCanvas;
-        
-        
-        private ObservableCollection<CanvaControlItem> controlsColection;
-
-        public ObservableCollection<CanvaControlItem> ControlsColection
-        {
-            get => controlsColection;
-            set
-            {
-                if (controlsColection != value)
-                {
-                    controlsColection = value;
-                    OnPropertyChanged(nameof(ControlsColection));
-                }
-            }
-        }
 
         public Canvas DesignCanvas
         {
-            get => designCanvas;
+            get => _designCanvas;
             set
             {
-                if (designCanvas != value)
+                if (_designCanvas != value)
                 {
-                    designCanvas = value;
-                    OnPropertyChanged();
+                    _designCanvas = value;
                     InitializeCanvasEvents();
                 }
             }
@@ -49,59 +30,75 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         public CanvaViewModel()
         {
-            Control ellipse = new Ellipse
-            {
-                Width = 100,
-                Height = 100,
-                Fill = Brushes.Blue
-            };
-            double x = 500;
-            double y = 500;
-            ControlsColection = new ObservableCollection<CanvaControlItem>() { new CanvaControlItem(x, y, 1, ellipse) };
         }
 
         private void InitializeCanvasEvents()
         {
             if (DesignCanvas != null)
             {
-                DesignCanvas.PointerPressed += OnPointerPressed;
-                DesignCanvas.PointerMoved += OnPointerMoved;
-                DesignCanvas.PointerReleased += OnPointerReleased;
+                DesignCanvas.PointerPressed += OnPointerPressed!;
+                DesignCanvas.PointerReleased += OnPointerReleased!;
+                DesignCanvas.PointerMoved += OnPointerMoved!;
+                DesignCanvas.PointerCaptureLost += OnPointerCaptureLost!;
             }
         }
 
-        private void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        public void OnPointerPressed(object sender, PointerPressedEventArgs e)
         {
             var position = e.GetPosition(DesignCanvas);
-            draggedControl = DesignCanvas.InputHitTest(position) as Control;
-            if (draggedControl != null)
+            var control = DesignCanvas.InputHitTest(position) as Control;
+            if (control != null)
             {
-                clickPosition = position;
-                e.Pointer.Capture(DesignCanvas); 
+                draggedControlItem = DesignCanvas.Children
+                    .OfType<CanvaControlItem>()
+                    .FirstOrDefault(item => item.Control == control);
+                if (draggedControlItem != null)
+                {
+                    clickPosition = position;
+                    e.Pointer.Capture(DesignCanvas);
+                }
             }
         }
 
-        private void OnPointerMoved(object sender, PointerEventArgs e)
+        public void OnPointerMoved(object sender, PointerEventArgs e)
         {
-            if (draggedControl != null/* && e.Pointer.Captured == DesignCanvas*/)
+            if (draggedControlItem != null && e.Pointer.Captured == DesignCanvas)
             {
                 var position = e.GetPosition(DesignCanvas);
                 var offset = position - clickPosition;
-                Canvas.SetLeft(draggedControl, Canvas.GetLeft(draggedControl) + offset.X);
-                Canvas.SetTop(draggedControl, Canvas.GetTop(draggedControl) + offset.Y);
+                draggedControlItem.X += offset.X;
+                draggedControlItem.Y += offset.Y;
+                
+                Canvas.SetLeft(draggedControlItem.Control, draggedControlItem.X);
+                Canvas.SetTop(draggedControlItem.Control, draggedControlItem.Y);
+                
+                clickPosition = position;
             }
         }
 
-        private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+        public void OnPointerReleased(object sender, PointerReleasedEventArgs e)
         {
-            if (draggedControl != null)
+            if (draggedControlItem != null && e.Pointer.Captured == DesignCanvas)
             {
-                e.Pointer.Capture(null); // Corrected line
-                draggedControl = null;
+                e.Pointer.Capture(null);
+                draggedControlItem = null;
             }
         }
 
+        public void OnPointerCaptureLost(object sender, PointerCaptureLostEventArgs e)
+        {
+            if (draggedControlItem != null)
+            {
+                draggedControlItem = null;
+            }
+        }
 
+        public void AddControl(CanvaControlItem control)
+        {
+            DesignCanvas.Children.Add(control.Control);
+            Canvas.SetLeft(control.Control, control.X);
+            Canvas.SetTop(control.Control, control.Y);
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
