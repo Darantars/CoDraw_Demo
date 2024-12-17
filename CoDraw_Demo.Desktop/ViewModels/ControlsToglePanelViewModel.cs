@@ -1,7 +1,7 @@
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
-using CoDraw_Demo.Desktop.Contracts;
+using CoDraw_Demo.Desktop.Models;
 
 namespace CoDraw_Demo.Desktop.ViewModels;
 using ReactiveUI;
