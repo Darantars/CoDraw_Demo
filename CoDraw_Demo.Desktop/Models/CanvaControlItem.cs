@@ -14,7 +14,7 @@ namespace CoDraw_Demo.Desktop.Models
 
         private double x { get; set; }
         private double y { get; set; }
-        private double z { get; set; }
+        private int z { get; set; }
         
         private string name { get; set; }
         
@@ -45,7 +45,7 @@ namespace CoDraw_Demo.Desktop.Models
             }
         }
         
-        public double Z
+        public int Z
         {
             get
             {
@@ -74,7 +74,7 @@ namespace CoDraw_Demo.Desktop.Models
         public double width { get; }
         public double height { get; }
 
-        public CanvaControlItem(double controlX, double controlY, double controlZ, Control innerControl)
+        public CanvaControlItem(double controlX, double controlY, int controlZ, Control innerControl)
         {
             control = innerControl;
             X = controlX;

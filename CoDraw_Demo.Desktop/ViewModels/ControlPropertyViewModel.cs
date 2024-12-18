@@ -23,6 +23,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
         private double _selectedControlHeight;
         private double _selectedControlX;
         private double _selectedControlY;
+        private int _selectedControlZ;
         private double _selectedControlOpacity;
 
         public Control SelectedControl
@@ -37,10 +38,23 @@ namespace CoDraw_Demo.Desktop.ViewModels
                 {
                     _selectedControl = value;
                     SelectedControlName = value.Name;
+                    SelectedControlWidth = value.Width;
+                    SelectedControlHeight = value.Height;
+                    //Canvas parentCanvas = value.Parent as Canvas;
+                    SelectedControlX = Canvas.GetLeft(value);
+                    SelectedControlY = Canvas.GetTop(value);
+                    SelectedControlZ = value.ZIndex;
+                    
                 }
                 else
-                {
+                { 
+                    _selectedControl = null;
                     SelectedControlName = "";
+                    SelectedControlWidth = 0;
+                    SelectedControlHeight = 0;
+                    SelectedControlX = 0;
+                    SelectedControlY = 0;
+                    SelectedControlZ = 0;
                 }
             }
         }
@@ -67,6 +81,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
             set
             {
                 _selectedControlWidth = value;
+                OnPropertyChanged();  
             }
         }
 
@@ -79,6 +94,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
             set
             {
                 _selectedControlHeight = value;
+                OnPropertyChanged();  
             }
         }
 
@@ -90,7 +106,10 @@ namespace CoDraw_Demo.Desktop.ViewModels
             }
             set
             {
+                if (SelectedControl != null)
+                    Canvas.SetLeft(SelectedControl, value);
                 _selectedControlX = value;
+                OnPropertyChanged();  
             }
         }
 
@@ -101,8 +120,26 @@ namespace CoDraw_Demo.Desktop.ViewModels
                 return _selectedControlY;
             }
             set
-            {
+            {   
+                if (SelectedControl != null)
+                    Canvas.SetTop(SelectedControl, value);
                 _selectedControlY = value;
+                OnPropertyChanged();  
+            }
+        }
+        
+        public int SelectedControlZ
+        {
+            get
+            {
+                return _selectedControlZ;
+            }
+            set
+            {
+                if (SelectedControl != null)
+                    SelectedControl.ZIndex = value;
+                _selectedControlZ = value;
+                OnPropertyChanged();  
             }
         }
 
@@ -115,6 +152,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
             set
             {
                 _selectedControlOpacity = value;
+                OnPropertyChanged();  
             }
         }
 

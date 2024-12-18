@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:CoDraw_Demo.Desktop.Views"
         mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="450"
+        MinWidth="1380" MinHeight="450"
         x:Class="CoDraw_Demo.Desktop.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="CoDraw_Demo.Desktop">

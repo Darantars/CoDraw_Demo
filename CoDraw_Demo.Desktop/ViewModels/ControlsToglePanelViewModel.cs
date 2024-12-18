@@ -33,8 +33,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
             Fill = Brushes.Red,
         };
         double x = 500;
-        double y = 500;
-        /*ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(rectangle);*/
+        double y = 400;
         ActualMainConfiguratorViewModel.ActualCanvaViewModel.ControlsColection.Add(new CanvaControlItem(x, y, 1, rectangle));
     }
 
@@ -48,8 +47,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
             Fill = Brushes.Blue
         };
         double x = 500;
-        double y = 500;
-        //ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(ellipse);
+        double y = 400;
         ActualMainConfiguratorViewModel.ActualCanvaViewModel.ControlsColection.Add(new CanvaControlItem(x, y, 1, ellipse));
     }
 
@@ -63,8 +61,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
             Text = "Sample Text"
         };
         double x = 500;
-        double y = 500;
-        //ActualMainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas.Children.Add(textBlock);
+        double y = 400;
         ActualMainConfiguratorViewModel.ActualCanvaViewModel.ControlsColection.Add(new CanvaControlItem(x, y, 1, textBlock));
     }
 

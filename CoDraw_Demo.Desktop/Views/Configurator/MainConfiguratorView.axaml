@@ -38,7 +38,10 @@
 			</SplitView.Pane>
 		
 			<confviews:CanvaView 
-				MinWidth="1080" DataContext="{Binding ActualCanvaViewModel}"/>
+				MinWidth="1080" 
+				CornerRadius="160"
+				DataContext="{Binding ActualCanvaViewModel}"
+				/>
 		</SplitView>
 		<DockPanel
 			Width="200"

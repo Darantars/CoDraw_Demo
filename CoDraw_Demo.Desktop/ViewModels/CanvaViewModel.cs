@@ -100,6 +100,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
                     };
                     Canvas.SetTop(newControlCanva, item.X);
                     Canvas.SetLeft(newControlCanva, item.Y);
+                    newControlCanva.ZIndex = item.Z;   
                     newControlCanva.Children.Add(item.control);
                     DesignCanvas.Children.Add(newControlCanva);
                 }

@@ -8,10 +8,16 @@
 		<TextBlock Text="Selected:"/>
 		<TextBox Text="{Binding SelectedControlName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 		<TextBlock Text="Width:"/>
-		<TextBox/>
+		<TextBox Text="{Binding SelectedControlWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 		<TextBlock Text="Height:"/>
-		<TextBox Name="HeightTextBox" />
+		<TextBox Text="{Binding SelectedControlHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
 		<TextBlock Text="Color:"/>
+		<TextBlock Text="X:"/>
+		<TextBox Text="{Binding SelectedControlX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
+		<TextBlock Text="Y:"/>
+		<TextBox Text="{Binding SelectedControlY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
+		<TextBlock Text="Z:"/>
+		<TextBox Text="{Binding SelectedControlZ, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
 		<ColorPicker Name="ColorPicker" />
 		<TextBlock Text="Opacity:"/>
 		<Slider Name="OpacitySlider" />
