@@ -12,48 +12,100 @@ namespace CoDraw_Demo.Desktop.ViewModels
 {
     public class ControlPropertyViewModel : ViewModelBase
     {
-        private Control selectedControl;
+        private Control _selectedControl;
+        private string _selectedControlName;
+        private double _selectedControlWidth;
+        private double _selectedControlHeight;
+        private double _selectedControlX;
+        private double _selectedControlY;
+        private double _selectedControlOpacity;
 
-        //Написать поля для биндинга свойств контролов
-
-        public void SetSelectedControl(Control control)
+        public Control SelectedControl
         {
-            selectedControl = control;
-            //WidthTextBox.Text = control.Width.ToString();
-            //HeightTextBox.Text = control.Height.ToString();
-            //ColorPicker.SelectedColor = (control as Shape)?.Fill as SolidColorBrush;
-            //OpacitySlider.Value = control.Opacity;
+            get
+            {
+                return _selectedControl;
+            }
+            set
+            {
+                _selectedControl = value;
+            }
+        }
+        
+        public string SelectedControlName
+        {
+            get
+            {
+                return _selectedControlName;
+            }
+            set
+            {
+                _selectedControlName = value;
+            }
         }
 
-        private void OnWidthChanged(object sender, TextChangedEventArgs e)
+        public double SelectedControlWidth
         {
-            //if (double.TryParse(WidthTextBox.Text, out double width))
-            //{
-            //    selectedControl.Width = width;
-            //}
+            get
+            {
+                return _selectedControlWidth;
+            }
+            set
+            {
+                _selectedControlWidth = value;
+            }
         }
 
-        private void OnHeightChanged(object sender, TextChangedEventArgs e)
+        public double SelectedControlHeight
         {
-            //if (double.TryParse(HeightTextBox.Text, out double height))
-            //{
-            //    selectedControl.Height = height;
-            //}
+            get
+            {
+                return _selectedControlHeight;
+            }
+            set
+            {
+                _selectedControlHeight = value;
+            }
         }
 
-        private void OnColorChanged(object sender, ColorChangedEventArgs e)
+        public double SelectedControlX
         {
-            //if (selectedControl is Shape shape)
-            //{
-            //    shape.Fill = new SolidColorBrush(ColorPicker.SelectedColor);
-            //}
+            get
+            {
+                return _selectedControlX;
+            }
+            set
+            {
+                _selectedControlX = value;
+            }
         }
 
-        private void OnOpacityChanged(/*object sender, RoutedPropertyChangedEventArgs<double> e*/)
+        public double SelectedControlY
         {
-            //selectedControl.Opacity = OpacitySlider.Value;
+            get
+            {
+                return _selectedControlY;
+            }
+            set
+            {
+                _selectedControlY = value;
+            }
         }
 
+        public double SelectedControlOpacity
+        {
+            get
+            {
+                return _selectedControlOpacity;
+            }
+            set
+            {
+                _selectedControlOpacity = value;
+            }
+        }
+
+
+       
         private void OnDeleteClick(object sender, RoutedEventArgs e)
         {
             //DesignCanvas.Children.Remove(selectedControl);

@@ -5,8 +5,10 @@
              mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="450"
              x:Class="CoDraw_Demo.Desktop.Views.Configurator.ControlPropertyView">
 	<StackPanel>
+		<TextBlock Text="Selected:"/>
+		<TextBox />
 		<TextBlock Text="Width:"/>
-		<TextBox Name="WidthTextBox" />
+		<TextBox Name="{Binding SelectedControlName }"/>
 		<TextBlock Text="Height:"/>
 		<TextBox Name="HeightTextBox" />
 		<TextBlock Text="Color:"/>

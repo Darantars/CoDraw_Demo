@@ -14,7 +14,7 @@
 	            HorizontalAlignment="Stretch">
 		<SplitView Name="LeftSplitView"
                    DisplayMode="CompactOverlay"
-                   CompactPaneLength="90"
+                   CompactPaneLength="100"
                    OpenPaneLength="200"
                    IsPaneOpen="{Binding IsLeftSplitViewOpen, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
 			<SplitView.Pane>
@@ -24,21 +24,27 @@
                         Content="&#xE700;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="16"
+                        IsVisible="False"
                         Command="{Binding ChangeLeftPaneWidthCommand}">
 					</Button>
-					<confviews:ControlsToglePanelView DataContext="{Binding ActualControlsToglePanelViewModel}">
+					<TextBlock Text="Controls"
+					           HorizontalAlignment="Center"
+					           VerticalAlignment="Center"
+					           Margin="5"></TextBlock>
+					<confviews:ControlsToglePanelView DataContext="{Binding ActualControlsToglePanelViewModel}" Margin="5">
 						
 					</confviews:ControlsToglePanelView>
 				</StackPanel>
 			</SplitView.Pane>
 		
 			<confviews:CanvaView 
-				MinWidth="1090" DataContext="{Binding ActualCanvaViewModel}"/>
+				MinWidth="1080" DataContext="{Binding ActualCanvaViewModel}"/>
 		</SplitView>
 		<DockPanel
 			Width="200"
-			Background="DimGray">
-			<confviews:ControlPropertyView >
+			>
+			<confviews:ControlPropertyView
+				Margin="5">
 				
 			</confviews:ControlPropertyView>
 		</DockPanel>

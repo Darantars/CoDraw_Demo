@@ -13,7 +13,9 @@ namespace CoDraw_Demo.Desktop.Models
     {
 
         private double x { get; set; }
-
+        private double y { get; set; }
+        private double z { get; set; }
+        
         public Control control { get; }
         public double X
         {
@@ -27,8 +29,33 @@ namespace CoDraw_Demo.Desktop.Models
                 OnPropertyChanged(nameof(X));
             }
         }
-        public double y { get; }
-        public double z { get; }
+        
+        public double Y
+        {
+            get
+            {
+                return y;
+            }
+            set
+            {
+                y = value;
+                OnPropertyChanged(nameof(Y));
+            }
+        }
+        
+        public double Z
+        {
+            get
+            {
+                return z;
+            }
+            set
+            {
+                z = value;
+                OnPropertyChanged(nameof(Z));
+            }
+        }
+
 
         public string name { get; }
         public double width { get; }

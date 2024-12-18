@@ -20,9 +20,10 @@ namespace CoDraw_Demo.Desktop.ViewModels
 {
     public class CanvaViewModel : INotifyPropertyChanged
     {
-        private Canvas hightLitedControl;
+        private Canvas draggedControl;
         private Point clickPosition;
         public Canvas designCanvas;
+        private bool isPointerPressed;
         
         
         private ObservableCollection<CanvaControlItem> controlsColection;
@@ -56,7 +57,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         public CanvaViewModel()
         {
-
+            isPointerPressed = false;
             ControlsColection = new ObservableCollection<CanvaControlItem>();
             controlsColection.CollectionChanged += ControlsColection_CollectionChanged;
         }
@@ -75,7 +76,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
                         
                     };
                     Canvas.SetTop(newControlCanva, item.X);
-                    Canvas.SetLeft(newControlCanva, item.y);
+                    Canvas.SetLeft(newControlCanva, item.Y);
                     newControlCanva.Children.Add(item.control);
                     DesignCanvas.Children.Add(newControlCanva);
                 }
@@ -108,38 +109,52 @@ namespace CoDraw_Demo.Desktop.ViewModels
         {
             var position = e.GetPosition(DesignCanvas);
             var hitControl = DesignCanvas.InputHitTest(position) as Control;
-
-            if (hitControl != null)
+            if (hitControl == null)
             {
-                if(hitControl != null)
-                    hightLitedControl = hitControl.Parent as Canvas;
-                if (hightLitedControl != null)
-                {
-                    clickPosition = position;
-                    e.Pointer.Capture(DesignCanvas);
-                }
+                draggedControl = null;
+                isPointerPressed = false;
+                return;
             }
+            if (draggedControl != null)
+            {
+                var previusInnerControl = draggedControl.Children.First() as Control;
+                if (previusInnerControl != null)
+                    previusInnerControl.Opacity = 1;
+                draggedControl = null;
+            }
+            draggedControl = hitControl.Parent as Canvas;
+            if (draggedControl == null)
+                return;
+            clickPosition = position;
+            e.Pointer.Capture(DesignCanvas);
+            Control innerControl = draggedControl.Children.First() as Control;
+            if (innerControl != null)
+                innerControl.Opacity = 0.75;
+            isPointerPressed = true;
+
         }
 
         private void OnPointerMoved(object sender, PointerEventArgs e)
         {
-            if (hightLitedControl != null)
+            if (draggedControl != null && isPointerPressed)
             {
                 var position = e.GetPosition(DesignCanvas);
                 var offset = position - clickPosition;
-                Canvas motionCanvas = DesignCanvas.Children.First(item => item == hightLitedControl) as Canvas;
-                Canvas.SetLeft(motionCanvas, position.X + offset.X);
-                Canvas.SetTop(motionCanvas, position.Y + offset.Y);
+                Canvas motionCanvas = DesignCanvas.Children.First(item => item == draggedControl) as Canvas;
+                Canvas.SetLeft(motionCanvas, position.X - motionCanvas.Width / 2);
+                Canvas.SetTop(motionCanvas, position.Y - motionCanvas.Height / 2);
             }
         }
 
         private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
         {
-            if (hightLitedControl != null)
+            isPointerPressed = false;
+            if (draggedControl != null)
             {
                 e.Pointer.Capture(null);
+
             }
-            hightLitedControl = null;
+            
         }
 
 
@@ -150,8 +165,8 @@ namespace CoDraw_Demo.Desktop.ViewModels
             {
                 Canvas newControlCanva = new Canvas
                 {
-                    Height = 55,
-                    Width = 55,
+                    Height = 10,
+                    Width = 10,
                     Name = Guid.NewGuid().ToString(),
 
                 };

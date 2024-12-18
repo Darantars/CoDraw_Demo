@@ -8,7 +8,7 @@
     <Design.DataContext>
         <vm:CanvaViewModel/>
     </Design.DataContext>
-    <Canvas  Name="DesignCanvas" Background="LightGray">
+    <Canvas  Name="DesignCanvas" Background="DimGray">
 
     </Canvas>
 </UserControl>
