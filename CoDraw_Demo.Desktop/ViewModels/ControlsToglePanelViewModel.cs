@@ -1,3 +1,4 @@
+using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Shapes;
 using Avalonia.Media;
@@ -26,6 +27,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
     {
         Control rectangle = new Rectangle
         {
+            Name = "Rectangle"+" "+Guid.NewGuid().ToString(),
             Width = 100,
             Height = 100,
             Fill = Brushes.Red,
@@ -40,6 +42,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
     {
         Control ellipse = new Ellipse
         {
+            Name = "Ellipse"+" "+Guid.NewGuid().ToString(),
             Width = 100,
             Height = 100,
             Fill = Brushes.Blue
@@ -54,6 +57,7 @@ public class ControlsToglePanelViewModel : ViewModelBase
     {
         Control textBlock = new TextBlock
         {
+            Name = "TextBlock"+" "+Guid.NewGuid().ToString(),
             Width = 100,
             Height = 30,
             Text = "Sample Text"

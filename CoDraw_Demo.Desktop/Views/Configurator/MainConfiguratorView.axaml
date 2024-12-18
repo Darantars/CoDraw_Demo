@@ -44,7 +44,7 @@
 			Width="200"
 			>
 			<confviews:ControlPropertyView
-				Margin="5">
+				Margin="5"  DataContext="{Binding ActualControlsProprtyPanelViewModel}">
 				
 			</confviews:ControlPropertyView>
 		</DockPanel>

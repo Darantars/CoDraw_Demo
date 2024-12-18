@@ -4,14 +4,19 @@ using Avalonia.Interactivity;
 using Avalonia.Media;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reactive;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using ReactiveUI;
 
 namespace CoDraw_Demo.Desktop.ViewModels
 {
-    public class ControlPropertyViewModel : ViewModelBase
+    public class ControlPropertyViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        private MainConfiguratorViewModel mainConfiguratorViewModel;
         private Control _selectedControl;
         private string _selectedControlName;
         private double _selectedControlWidth;
@@ -28,19 +33,28 @@ namespace CoDraw_Demo.Desktop.ViewModels
             }
             set
             {
-                _selectedControl = value;
+                if (value != null)
+                {
+                    _selectedControl = value;
+                    SelectedControlName = value.Name;
+                }
+                else
+                {
+                    SelectedControlName = "";
+                }
             }
         }
         
         public string SelectedControlName
         {
-            get
-            {
-                return _selectedControlName;
-            }
+            get => _selectedControlName;
             set
             {
-                _selectedControlName = value;
+                if (value != null)
+                {
+                    _selectedControlName = value;
+                    OnPropertyChanged();  
+                }
             }
         }
 
@@ -105,15 +119,33 @@ namespace CoDraw_Demo.Desktop.ViewModels
         }
 
 
-       
-        private void OnDeleteClick(object sender, RoutedEventArgs e)
+        public ReactiveCommand<Unit, Unit> DeleteControlCommand { get; set; }
+        
+        private void OnDeleteClick()
         {
-            //DesignCanvas.Children.Remove(selectedControl);
+            mainConfiguratorViewModel.ActualCanvaViewModel.DesignCanvas
+                .Children
+                .Remove(
+                    mainConfiguratorViewModel
+                        .ActualCanvaViewModel
+                        .DesignCanvas.Children
+                        .First(x => x.Name == SelectedControlName)
+                    );
+            SelectedControl = null;
         }
 
-        public ControlPropertyViewModel(MainConfiguratorViewModel mainConfiguratorViewModel) 
-        { 
+        public ControlPropertyViewModel(MainConfiguratorViewModel parentMainConfiguratorViewModel)
+        {
+            mainConfiguratorViewModel = parentMainConfiguratorViewModel;
+            SelectedControlName = string.Empty;
+            DeleteControlCommand = ReactiveCommand.Create(OnDeleteClick);
+        }
         
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

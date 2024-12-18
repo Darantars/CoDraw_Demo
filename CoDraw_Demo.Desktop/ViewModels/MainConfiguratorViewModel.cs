@@ -53,7 +53,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         public MainConfiguratorViewModel()
         {
-            ActualCanvaViewModel= new CanvaViewModel();
+            ActualCanvaViewModel= new CanvaViewModel(this);
             ActualControlsToglePanelViewModel = new ControlsToglePanelViewModel(this);
             ActualControlsProprtyPanelViewModel = new ControlPropertyViewModel(this);
             IsRightSplitViewOpen = false;

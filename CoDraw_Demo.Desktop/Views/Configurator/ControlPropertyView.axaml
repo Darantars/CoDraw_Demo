@@ -6,15 +6,15 @@
              x:Class="CoDraw_Demo.Desktop.Views.Configurator.ControlPropertyView">
 	<StackPanel>
 		<TextBlock Text="Selected:"/>
-		<TextBox />
+		<TextBox Text="{Binding SelectedControlName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 		<TextBlock Text="Width:"/>
-		<TextBox Name="{Binding SelectedControlName }"/>
+		<TextBox/>
 		<TextBlock Text="Height:"/>
 		<TextBox Name="HeightTextBox" />
 		<TextBlock Text="Color:"/>
 		<ColorPicker Name="ColorPicker" />
 		<TextBlock Text="Opacity:"/>
 		<Slider Name="OpacitySlider" />
-		<Button Content="Delete" />
+		<Button Content="Delete" Command="{Binding DeleteControlCommand}"/>
 	</StackPanel>
 </UserControl>

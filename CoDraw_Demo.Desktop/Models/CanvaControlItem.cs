@@ -16,6 +16,8 @@ namespace CoDraw_Demo.Desktop.Models
         private double y { get; set; }
         private double z { get; set; }
         
+        private string name { get; set; }
+        
         public Control control { get; }
         public double X
         {
@@ -56,8 +58,19 @@ namespace CoDraw_Demo.Desktop.Models
             }
         }
 
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
 
-        public string name { get; }
         public double width { get; }
         public double height { get; }
 
@@ -66,10 +79,10 @@ namespace CoDraw_Demo.Desktop.Models
             control = innerControl;
             X = controlX;
             y = controlY;
-            z = controlZ;
+            Z = controlZ;
             width = control.Width;
             height = control.Height;
-            name = Guid.NewGuid().ToString(); 
+            Name = control.Name; 
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

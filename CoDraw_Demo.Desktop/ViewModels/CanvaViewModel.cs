@@ -20,7 +20,8 @@ namespace CoDraw_Demo.Desktop.ViewModels
 {
     public class CanvaViewModel : INotifyPropertyChanged
     {
-        private Canvas draggedControl;
+        private MainConfiguratorViewModel mainConfiguratorViewModel;
+        private Canvas _draggedControl;
         private Point clickPosition;
         public Canvas designCanvas;
         private bool isPointerPressed;
@@ -55,8 +56,30 @@ namespace CoDraw_Demo.Desktop.ViewModels
             }
         }
 
-        public CanvaViewModel()
+        public Canvas DraggedControl
         {
+            get => _draggedControl;
+            set
+            {
+                if (_draggedControl != value)
+                {
+                    _draggedControl = value;
+                    OnPropertyChanged();
+                    if (value != null && value.Children != null)
+                    {
+                        mainConfiguratorViewModel.ActualControlsProprtyPanelViewModel.SelectedControl = value;
+                    }
+                    else
+                    {
+                        mainConfiguratorViewModel.ActualControlsProprtyPanelViewModel.SelectedControl = null;
+                    }
+                }
+            }
+        }
+
+        public CanvaViewModel(MainConfiguratorViewModel parentMainConfiguratorViewModel )
+        {
+            mainConfiguratorViewModel = parentMainConfiguratorViewModel;
             isPointerPressed = false;
             ControlsColection = new ObservableCollection<CanvaControlItem>();
             controlsColection.CollectionChanged += ControlsColection_CollectionChanged;
@@ -72,7 +95,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
                     {
                         Height = item.width,
                         Width = item.height,
-                        Name = item.name,
+                        Name = item.Name,
                         
                     };
                     Canvas.SetTop(newControlCanva, item.X);
@@ -86,7 +109,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
             {
                 foreach (CanvaControlItem item in e.OldItems)
                 {
-                    var canvasToRemove = DesignCanvas.Children.OfType<Canvas>().FirstOrDefault(c => c.Name == item.name);
+                    var canvasToRemove = DesignCanvas.Children.OfType<Canvas>().FirstOrDefault(c => c.Name == item.Name);
                     if (canvasToRemove != null)
                     {
                         DesignCanvas.Children.Remove(canvasToRemove);
@@ -111,23 +134,23 @@ namespace CoDraw_Demo.Desktop.ViewModels
             var hitControl = DesignCanvas.InputHitTest(position) as Control;
             if (hitControl == null)
             {
-                draggedControl = null;
+                DraggedControl = null;
                 isPointerPressed = false;
                 return;
             }
-            if (draggedControl != null)
+            if (DraggedControl != null)
             {
-                var previusInnerControl = draggedControl.Children.First() as Control;
+                var previusInnerControl = DraggedControl.Children.First() as Control;
                 if (previusInnerControl != null)
                     previusInnerControl.Opacity = 1;
-                draggedControl = null;
+                DraggedControl = null;
             }
-            draggedControl = hitControl.Parent as Canvas;
-            if (draggedControl == null)
+            DraggedControl = hitControl.Parent as Canvas;
+            if (DraggedControl == null)
                 return;
             clickPosition = position;
             e.Pointer.Capture(DesignCanvas);
-            Control innerControl = draggedControl.Children.First() as Control;
+            Control innerControl = DraggedControl.Children.First() as Control;
             if (innerControl != null)
                 innerControl.Opacity = 0.75;
             isPointerPressed = true;
@@ -136,11 +159,11 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         private void OnPointerMoved(object sender, PointerEventArgs e)
         {
-            if (draggedControl != null && isPointerPressed)
+            if (DraggedControl != null && isPointerPressed)
             {
                 var position = e.GetPosition(DesignCanvas);
                 var offset = position - clickPosition;
-                Canvas motionCanvas = DesignCanvas.Children.First(item => item == draggedControl) as Canvas;
+                Canvas motionCanvas = DesignCanvas.Children.First(item => item == DraggedControl) as Canvas;
                 Canvas.SetLeft(motionCanvas, position.X - motionCanvas.Width / 2);
                 Canvas.SetTop(motionCanvas, position.Y - motionCanvas.Height / 2);
             }
@@ -149,7 +172,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
         private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
         {
             isPointerPressed = false;
-            if (draggedControl != null)
+            if (DraggedControl != null)
             {
                 e.Pointer.Capture(null);
 
