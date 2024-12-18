@@ -141,9 +141,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
             }
             if (DraggedControl != null)
             {
-                var previusInnerControl = DraggedControl.Children.First() as Control;
-                if (previusInnerControl != null)
-                    previusInnerControl.Opacity = 1;
+                DraggedControl.Opacity = 1;
                 DraggedControl = null;
             }
             DraggedControl = hitControl.Parent as Canvas;
@@ -151,9 +149,7 @@ namespace CoDraw_Demo.Desktop.ViewModels
                 return;
             clickPosition = position;
             e.Pointer.Capture(DesignCanvas);
-            Control innerControl = DraggedControl.Children.First() as Control;
-            if (innerControl != null)
-                innerControl.Opacity = 0.75;
+            DraggedControl.Opacity = 0.75;
             isPointerPressed = true;
 
         }

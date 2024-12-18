@@ -6,7 +6,10 @@
              x:Class="CoDraw_Demo.Desktop.Views.Configurator.ControlPropertyView">
 	<StackPanel>
 		<TextBlock Text="Selected:"/>
-		<TextBox Text="{Binding SelectedControlName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+		<TextBlock 
+			Text="{Binding SelectedControlName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+			Foreground ="#C469EE"
+			/>
 		<TextBlock Text="Width:"/>
 		<TextBox Text="{Binding SelectedControlWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 		<TextBlock Text="Height:"/>
@@ -18,9 +21,10 @@
 		<TextBox Text="{Binding SelectedControlY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
 		<TextBlock Text="Z:"/>
 		<TextBox Text="{Binding SelectedControlZ, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
-		<ColorPicker Name="ColorPicker" />
+		<TextBlock Text="Color:"/>
+		<ColorPicker Name="ColorPicker" Height ="100" Width =" 100" ColorChanged="ColorPicker_OnColorChanged" Color="{Binding SelectedControlColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 		<TextBlock Text="Opacity:"/>
-		<Slider Name="OpacitySlider" />
+		<Slider Name="OpacitySlider" Value="{Binding SelectedControlOpacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Minimum="0" Maximum="1" />
 		<Button Content="Delete" Command="{Binding DeleteControlCommand}"/>
 	</StackPanel>
 </UserControl>
