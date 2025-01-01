@@ -1,73 +1,83 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Input;
 using Avalonia.Controls.ApplicationLifetimes;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Avalonia.Controls.Shapes;
+using Avalonia.Input;
 using Avalonia.Media;
-using DynamicData;
-using System.Linq;
-using DynamicData.Binding;
-using System.Threading.Tasks;
-using ReactiveUI;
-using System.Collections.Specialized;
 using CoDraw_Demo.Desktop.Models;
-using System;
+using DynamicData;
+using DynamicData.Binding;
+using ReactiveUI;
 
 namespace CoDraw_Demo.Desktop.ViewModels
 {
     public class CanvaViewModel : INotifyPropertyChanged
     {
         private MainConfiguratorViewModel mainConfiguratorViewModel;
-        private Canvas _draggedControl;
-        private Point clickPosition;
-        public Canvas designCanvas;
-        private bool isPointerPressed;
-        
-        
-        private ObservableCollection<CanvaControlItem> controlsColection;
+        private ObservableCollection<Canvas> _draggedControls;
+        public Canvas _designCanvas;
+        private ObservableCollection<CanvaControlItem> _controlsColection;
+        private CanvaPointerWorker canvasPointerWorker;
 
         public ObservableCollection<CanvaControlItem> ControlsColection
         {
-            get => controlsColection;
+            get => _controlsColection;
             set
             {
-                if (controlsColection != value)
+                if (_controlsColection != value)
                 {
-                    controlsColection = value;
+                    _controlsColection = value;
                 }
             }
         }
 
         public Canvas DesignCanvas
         {
-            get => designCanvas;
+            get => _designCanvas;
             set
             {
-                if (designCanvas != value)
+                if (_designCanvas != value)
                 {
-                    designCanvas = value;
+                    _designCanvas = value;
                     OnPropertyChanged();
                     InitializeCanvasEvents();
-                    Test500();
                 }
             }
         }
+        
 
-        public Canvas DraggedControl
+        public ObservableCollection<Canvas> DraggedControls
         {
-            get => _draggedControl;
+            get => _draggedControls;
             set
             {
-                if (_draggedControl != value)
+                if (_draggedControls != value)
                 {
-                    _draggedControl = value;
-                    OnPropertyChanged();
-                    if (value != null && value.Children != null)
+                    if (_draggedControls != null)
                     {
-                        mainConfiguratorViewModel.ActualControlsProprtyPanelViewModel.SelectedControl = value;
+                        _draggedControls.CollectionChanged -= DraggedControls_CollectionChanged;
+                    }
+
+                    _draggedControls = value;
+
+                    if (_draggedControls != null)
+                    {
+                        _draggedControls.CollectionChanged += DraggedControls_CollectionChanged;
+                    }
+
+                    OnPropertyChanged();
+
+                    if (value.Count == 1 && value.First().Children.Count == 1)
+                    {
+                        mainConfiguratorViewModel.ActualControlsProprtyPanelViewModel.SelectedControl = value.First();
                     }
                     else
                     {
@@ -77,12 +87,13 @@ namespace CoDraw_Demo.Desktop.ViewModels
             }
         }
 
-        public CanvaViewModel(MainConfiguratorViewModel parentMainConfiguratorViewModel )
+        public CanvaViewModel(MainConfiguratorViewModel parentMainConfiguratorViewModel)
         {
             mainConfiguratorViewModel = parentMainConfiguratorViewModel;
-            isPointerPressed = false;
+            DraggedControls = new ObservableCollection<Canvas>();
             ControlsColection = new ObservableCollection<CanvaControlItem>();
-            controlsColection.CollectionChanged += ControlsColection_CollectionChanged;
+            _controlsColection.CollectionChanged += ControlsColection_CollectionChanged;
+            canvasPointerWorker = new CanvaPointerWorker(this);
         }
 
         private void ControlsColection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -96,11 +107,10 @@ namespace CoDraw_Demo.Desktop.ViewModels
                         Height = item.width,
                         Width = item.height,
                         Name = item.Name,
-                        
                     };
                     Canvas.SetTop(newControlCanva, item.X);
                     Canvas.SetLeft(newControlCanva, item.Y);
-                    newControlCanva.ZIndex = item.Z;   
+                    newControlCanva.ZIndex = item.Z;
                     newControlCanva.Children.Add(item.control);
                     DesignCanvas.Children.Add(newControlCanva);
                 }
@@ -119,83 +129,45 @@ namespace CoDraw_Demo.Desktop.ViewModels
             }
         }
 
+        private void DraggedControls_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (Canvas item in e.NewItems)
+                {
+                    // TODO: Обработка добавленных элементов. Хорошо бы перенести  из методов клика
+                }
+            }
+
+            if (e.OldItems != null)
+            {
+                foreach (Canvas item in e.OldItems)
+                {
+                    // TODO: Обработка удаленных элементов. Хорошо бы перенести  из методов клика
+                }
+            }
+            //TODO: Переработать участок, присутствует дубляж ссылок + реализовать редактирование свойств группы
+            if (DraggedControls.Count >= 1 && DraggedControls.First().Children.Count == 1)
+                mainConfiguratorViewModel.ActualControlsProprtyPanelViewModel.SelectedControl = DraggedControls.First();
+            else if (DraggedControls.Count >= 1 && DraggedControls.First().Children.Count == 1)
+                mainConfiguratorViewModel.ActualControlsProprtyPanelViewModel.SelectedControl = null;
+            else
+                mainConfiguratorViewModel.ActualControlsProprtyPanelViewModel.SelectedControl = null;
+        }
+
         private async void InitializeCanvasEvents()
         {
             if (DesignCanvas != null)
             {
-                DesignCanvas.PointerPressed += OnPointerPressed;
-                DesignCanvas.PointerMoved += OnPointerMoved;
-                DesignCanvas.PointerReleased += OnPointerReleased;
+                DesignCanvas.PointerPressed += canvasPointerWorker.OnPointerPressed;
+                DesignCanvas.PointerMoved += canvasPointerWorker.OnPointerMoved;
+                DesignCanvas.PointerReleased += canvasPointerWorker.OnPointerReleased;
             }
         }
-
-        private void OnPointerPressed(object sender, PointerPressedEventArgs e)
-        {
-            var position = e.GetPosition(DesignCanvas);
-            var hitControl = DesignCanvas.InputHitTest(position) as Control;
-            if (hitControl == null)
-            {
-                DraggedControl = null;
-                isPointerPressed = false;
-                return;
-            }
-            if (DraggedControl != null)
-            {
-                DraggedControl.Opacity = 1;
-                DraggedControl = null;
-            }
-            DraggedControl = hitControl.Parent as Canvas;
-            if (DraggedControl == null)
-                return;
-            clickPosition = position;
-            e.Pointer.Capture(DesignCanvas);
-            DraggedControl.Opacity = 0.75;
-            isPointerPressed = true;
-
-        }
-
-        private void OnPointerMoved(object sender, PointerEventArgs e)
-        {
-            if (DraggedControl != null && isPointerPressed)
-            {
-                var position = e.GetPosition(DesignCanvas);
-                var offset = position - clickPosition;
-                Canvas motionCanvas = DesignCanvas.Children.First(item => item == DraggedControl) as Canvas;
-                Canvas.SetLeft(motionCanvas, position.X - motionCanvas.Width / 2);
-                Canvas.SetTop(motionCanvas, position.Y - motionCanvas.Height / 2);
-            }
-        }
-
-        private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
-        {
-            isPointerPressed = false;
-            if (DraggedControl != null)
-            {
-                e.Pointer.Capture(null);
-
-            }
-            
-        }
+        
 
 
-        //Test
-        public void Test500()
-        {
-            for (int i = 0; i < 500; i++)
-            {
-                Canvas newControlCanva = new Canvas
-                {
-                    Height = 10,
-                    Width = 10,
-                    Name = Guid.NewGuid().ToString(),
 
-                };
-                Canvas.SetTop(newControlCanva, 555);
-                Canvas.SetLeft(newControlCanva, 555);
-                newControlCanva.Children.Add( new Rectangle() { Width = 10, Height = 10, Fill = Avalonia.Media.Brush.Parse("Red") });
-                DesignCanvas.Children.Add(newControlCanva);
-            }
-        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -203,8 +175,5 @@ namespace CoDraw_Demo.Desktop.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-
-        
     }
 }

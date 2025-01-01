@@ -1,11 +1,34 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:uniDock="https://np.com/visuals"
              x:Class="CoDraw_Demo.Desktop.App"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Light">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.Styles>
         <FluentTheme />
 		<StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+        <StyleInclude Source="avares://NP.Ava.Visuals/Themes/CustomWindowStyles.axaml"/>
+        <StyleInclude Source="avares://NP.Ava.UniDock/Themes/DockStyles.axaml"/>
+        <StyleInclude Source="avares://NP.Ava.Visuals/Themes/CustomWindowStyles.axaml"/>
+        <StyleInclude Source="avares://NP.Ava.UniDock/Themes/DockStyles.axaml"/>
     </Application.Styles>
+             
+     <Application.Resources>
+         <ResourceDictionary>
+
+
+             <!-- Light Theme Style -->
+             <Style x:Key="LightDockItemStyle" Selector="uniDock|DockItem">
+                 <Setter Property="Background" Value="White"/>
+                 <Setter Property="Foreground" Value="Black"/>
+             </Style>
+
+             <!-- Dark Theme Style -->
+             <Style x:Key="DarkDockItemStyle" Selector="uniDock|DockItem">
+                 <Setter Property="Background" Value="Black"/>
+                 <Setter Property="Foreground" Value="White"/>
+             </Style>
+         </ResourceDictionary>
+     </Application.Resources>
 </Application>

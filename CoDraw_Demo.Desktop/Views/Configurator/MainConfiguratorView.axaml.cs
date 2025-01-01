@@ -14,10 +14,18 @@ namespace CoDraw_Demo.Desktop.Views.Configurator
 {
     public partial class MainConfiguratorView : UserControl, INotifyPropertyChanged
     {
-        public MainConfiguratorView()
+        public MainConfiguratorView(MainConfiguratorViewModel viewModel)
         {
-            DataContext = new MainConfiguratorViewModel();
+            DataContext = viewModel;
             InitializeComponent();
+        }
+
+        // Реализация INotifyPropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

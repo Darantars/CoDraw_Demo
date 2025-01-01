@@ -2,20 +2,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="200"
              xmlns:vm="clr-namespace:CoDraw_Demo.Desktop.ViewModels"
              x:Class="CoDraw_Demo.Desktop.Views.Configurator.ControlsToglePanelView">
-
-        <StackPanel>
-        <Button Content="Rectangle" 
-				Width="90"
-                Command="{Binding OnRectangleCommand}"/>
-        <Button Content="Ellipse" 
-				Width="90"
-                Command="{Binding OnEllipseCommand}"/>
-        <Button Content="TextBlock" 
-				Width="90"
-                Command="{Binding OnTextBlockCommand}"/>
-        <!-- Add more controls as needed -->
-    </StackPanel>
+    <ScrollViewer HorizontalAlignment="Center" MinWidth="200">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Button Width="150" Height="40" Command="{Binding OnRectangleCommand}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Rectangle Width="15" Height="15" Fill="Gray" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Rectangle" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button Width="150" Height="40" Command="{Binding OnEllipseCommand}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse Width="15" Height="15" Fill="Gray" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="Ellipse" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button Width="150" Height="40" Command="{Binding OnTextBlockCommand}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="T" FontSize="15" Foreground="Gray" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="TextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button Width="150" Height="40" Command="{Binding OnButtonCommand}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button Width="30" Height="15" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Button"/>
+                    <TextBlock Text="Button" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

@@ -9,6 +9,9 @@ public partial class ControlsToglePanelView : UserControl
 {
     public ControlsToglePanelView()
     {
+        var app = (App)Application.Current;
+        var configuratorViewModel = app.ConfiguratorViewModel;
+        DataContext = configuratorViewModel.ActualControlsToglePanelViewModel;
         InitializeComponent();
     }
 }

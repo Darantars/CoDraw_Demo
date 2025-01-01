@@ -2,29 +2,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="200" d:DesignHeight="450"
+             xmlns:controls="clr-namespace:Avalonia.PropertyGrid.Controls;assembly=Avalonia.PropertyGrid"
+             Width="400"
              x:Class="CoDraw_Demo.Desktop.Views.Configurator.ControlPropertyView">
-	<StackPanel>
-		<TextBlock Text="Selected:"/>
-		<TextBlock 
-			Text="{Binding SelectedControlName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-			Foreground ="#C469EE"
-			/>
-		<TextBlock Text="Width:"/>
-		<TextBox Text="{Binding SelectedControlWidth, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-		<TextBlock Text="Height:"/>
-		<TextBox Text="{Binding SelectedControlHeight, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
-		<TextBlock Text="Color:"/>
-		<TextBlock Text="X:"/>
-		<TextBox Text="{Binding SelectedControlX, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
-		<TextBlock Text="Y:"/>
-		<TextBox Text="{Binding SelectedControlY, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
-		<TextBlock Text="Z:"/>
-		<TextBox Text="{Binding SelectedControlZ, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  />
-		<TextBlock Text="Color:"/>
-		<ColorPicker Name="ColorPicker" Height ="100" Width =" 100" ColorChanged="ColorPicker_OnColorChanged" Color="{Binding SelectedControlColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
-		<TextBlock Text="Opacity:"/>
-		<Slider Name="OpacitySlider" Value="{Binding SelectedControlOpacity, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Minimum="0" Maximum="1" />
-		<Button Content="Delete" Command="{Binding DeleteControlCommand}"/>
-	</StackPanel>
+
+    <ScrollViewer VerticalScrollBarVisibility="Visible">
+        <StackPanel Spacing="5">
+            <TextBlock Text="Selected:" />
+            <TextBlock Text="{Binding SelectedControlName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                       Foreground="#C469EE" />
+            <Button Content="Delete control" Background="Red" Command="{Binding DeleteControlCommand}" />
+            <controls:PropertyGrid x:Name="propertyGrid_Basic"
+                                   MinWidth="380"
+                                   Margin="4"
+                                   CustomPropertyDescriptorFilter="OnCustomPropertyDescriptorFilter"
+                                   DataContext="{Binding SelectedControlObject, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+            <TextBlock Text="Color:"/>
+            <ColorPicker Name="ColorPicker" Height="100" Width="100" ColorChanged="ColorPicker_OnColorChanged" Color="{Binding SelectedControlColor, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

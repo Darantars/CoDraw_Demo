@@ -53,9 +53,9 @@ namespace CoDraw_Demo.Desktop.ViewModels
 
         public MainConfiguratorViewModel()
         {
-            ActualCanvaViewModel= new CanvaViewModel(this);
             ActualControlsToglePanelViewModel = new ControlsToglePanelViewModel(this);
             ActualControlsProprtyPanelViewModel = new ControlPropertyViewModel(this);
+            ActualCanvaViewModel= new CanvaViewModel(this);
             IsRightSplitViewOpen = false;
             ChangeLeftPaneWidthCommand = ReactiveCommand.Create(ChangeLeftPaneWidth);
             ChangeRightPaneWidthCommand = ReactiveCommand.Create(ChangeRightPaneWidth); 

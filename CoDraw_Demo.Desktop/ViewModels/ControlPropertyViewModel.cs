@@ -10,6 +10,7 @@ using System.Reactive;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Avalonia.Skia;
+using CoDraw_Demo.Desktop.Models;
 using ReactiveUI;
 using SkiaSharp;
 
@@ -19,13 +20,8 @@ namespace CoDraw_Demo.Desktop.ViewModels
     {
         private MainConfiguratorViewModel mainConfiguratorViewModel;
         private Control _selectedControl;
+        private ConfiguratorObject _selectedControlObject;
         private string _selectedControlName;
-        private double _selectedControlWidth;
-        private double _selectedControlHeight;
-        private double _selectedControlX;
-        private double _selectedControlY;
-        private int _selectedControlZ;
-        private double _selectedControlOpacity;
         private IBrush _selectedControlColor;
 
         public Control SelectedControl
@@ -37,41 +33,43 @@ namespace CoDraw_Demo.Desktop.ViewModels
                 {
                     _selectedControl = value;
                     SelectedControlName = value.Name;
-                    SelectedControlWidth = value.Width;
-                    SelectedControlHeight = value.Height;
-                    SelectedControlX = Canvas.GetLeft(value);
-                    SelectedControlY = Canvas.GetTop(value);
-                    SelectedControlZ = value.ZIndex;
                     var select = SelectedControl as Canvas;
                     var innerControl = select?.Children.FirstOrDefault() as Control;
                     if (innerControl != null)
                     {
-                        SelectedControlOpacity = innerControl.Opacity;
+                        SelectedControlObject = ConfiguratorObjectFactory.CreateConfiguratorObject(select);
                         if (HasPublicProperty(innerControl, "Fill"))
                             SelectedControlColor = (IBrush)innerControl.GetType().GetProperty("Fill").GetValue(innerControl);
                         else if (HasPublicProperty(innerControl, "Background"))
                             SelectedControlColor = (IBrush)innerControl.GetType().GetProperty("Background").GetValue(innerControl);
                         else
                             SelectedControlColor = Brushes.Transparent;
+                        
                     }
                     else
                     {
-                        SelectedControlOpacity = 1;
+                        SelectedControlObject = null;
                         SelectedControlColor = Brushes.Transparent;
                     }
                 }
                 else
                 {
                     _selectedControl = null;
+                    SelectedControlObject = null;
                     SelectedControlName = "";
-                    SelectedControlWidth = 0;
-                    SelectedControlHeight = 0;
-                    SelectedControlX = 0;
-                    SelectedControlY = 0;
-                    SelectedControlZ = 0;
-                    SelectedControlOpacity = 1;
                     SelectedControlColor = Brushes.Transparent;
                 }
+                OnPropertyChanged();
+            }
+        }
+
+        public ConfiguratorObject SelectedControlObject
+        {
+            get => _selectedControlObject;
+            set
+            {
+                _selectedControlObject = value;
+                OnPropertyChanged();
             }
         }
 
@@ -88,116 +86,20 @@ namespace CoDraw_Demo.Desktop.ViewModels
             }
         }
 
-        public double SelectedControlWidth
-        {
-            get => _selectedControlWidth;
-            set
-            {
-                if (SelectedControl != null)
-                {
-                    SelectedControl.Width = value;
-                    var select = SelectedControl as Canvas;
-                    select?.Children.FirstOrDefault()?.SetValue(Control.WidthProperty, value);
-                }
-                _selectedControlWidth = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public double SelectedControlHeight
-        {
-            get => _selectedControlHeight;
-            set
-            {
-                if (SelectedControl != null)
-                {
-                    SelectedControl.Height = value;
-                    var select = SelectedControl as Canvas;
-                    select?.Children.FirstOrDefault()?.SetValue(Control.HeightProperty, value);
-                }
-                _selectedControlHeight = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public double SelectedControlX
-        {
-            get => _selectedControlX;
-            set
-            {
-                if (SelectedControl != null)
-                    Canvas.SetLeft(SelectedControl, value);
-                _selectedControlX = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public double SelectedControlY
-        {
-            get => _selectedControlY;
-            set
-            {
-                if (SelectedControl != null)
-                    Canvas.SetTop(SelectedControl, value);
-                _selectedControlY = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int SelectedControlZ
-        {
-            get => _selectedControlZ;
-            set
-            {
-                if (SelectedControl != null)
-                    SelectedControl.ZIndex = value;
-                _selectedControlZ = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public double SelectedControlOpacity
-        {
-            get
-            {
-                if (SelectedControl != null)
-                {
-                    var select = SelectedControl as Canvas;
-                    return select?.Children.FirstOrDefault()?.Opacity ?? 0;
-                }
-                else
-                    return 0;
-            }
-            set
-            {
-                if (SelectedControl != null)
-                {
-                    var select = SelectedControl as Canvas;
-                    select?.Children.FirstOrDefault()?.SetValue(Control.OpacityProperty, value);
-                }
-                _selectedControlOpacity = value;
-                OnPropertyChanged();
-            }
-        }
-
         public IBrush SelectedControlColor
         {
-            get
-            {
-                return _selectedControlColor;
-            }
+            get => _selectedControlColor;
             set
             {
-                if (SelectedControl != null && SelectedControl is Canvas canvas)
-                {
-                    if(canvas.Children.First() is Control control)
-                    {
-                        if (HasPublicProperty(control, "Fill"))
-                            control.GetType().GetProperty("Fill")?.SetValue(control, value);
-                        else if (HasPublicProperty(control, "Background"))
-                            control.GetType().GetProperty("Background")?.SetValue(control, value);
-                    }
-                }
+                if (SelectedControlObject == null)
+                    return;
+                var _innerControl = SelectedControlObject.InnerControl;
+                if (HasPublicProperty(_innerControl, "Fill"))
+                    _innerControl.GetType().GetProperty("Fill")?.SetValue(_innerControl, value);
+                else if (HasPublicProperty(_innerControl, "Background"))
+                    _innerControl.GetType().GetProperty("Background")?.SetValue(_innerControl, value);
+                
+                
                 _selectedControlColor = value;
                 OnPropertyChanged();
             }
@@ -231,7 +133,6 @@ namespace CoDraw_Demo.Desktop.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        
 
         public static bool HasPublicProperty(object obj, string propertyName)
         {
@@ -246,3 +147,4 @@ namespace CoDraw_Demo.Desktop.ViewModels
         }
     }
 }
+

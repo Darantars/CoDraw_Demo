@@ -3,53 +3,44 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:CoDraw_Demo.Desktop.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="800"
              xmlns:confviews="clr-namespace:CoDraw_Demo.Desktop.Views.Configurator"
+             xmlns:uniDock="https://np.com/visuals"
              x:DataType="vm:MainConfiguratorViewModel"
              x:Class="CoDraw_Demo.Desktop.Views.Configurator.MainConfiguratorView">
-	<Design.DataContext>
-		<vm:MainConfiguratorViewModel />
-	</Design.DataContext>
-	<StackPanel Orientation="Horizontal"
-	            HorizontalAlignment="Stretch">
-		<SplitView Name="LeftSplitView"
-                   DisplayMode="CompactOverlay"
-                   CompactPaneLength="100"
-                   OpenPaneLength="200"
-                   IsPaneOpen="{Binding IsLeftSplitViewOpen, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-			<SplitView.Pane>
-				<StackPanel>
-					<Button
-                        Name="ToggleLeftPanelButton"
-                        Content="&#xE700;"
-                        FontFamily="Segoe MDL2 Assets"
-                        FontSize="16"
-                        IsVisible="False"
-                        Command="{Binding ChangeLeftPaneWidthCommand}">
-					</Button>
-					<TextBlock Text="Controls"
-					           HorizontalAlignment="Center"
-					           VerticalAlignment="Center"
-					           Margin="5"></TextBlock>
-					<confviews:ControlsToglePanelView DataContext="{Binding ActualControlsToglePanelViewModel}" Margin="5">
-						
-					</confviews:ControlsToglePanelView>
-				</StackPanel>
-			</SplitView.Pane>
-		
-			<confviews:CanvaView 
-				MinWidth="1080" 
-				CornerRadius="160"
-				DataContext="{Binding ActualCanvaViewModel}"
-				/>
-		</SplitView>
-		<DockPanel
-			Width="200"
-			>
-			<confviews:ControlPropertyView
-				Margin="5"  DataContext="{Binding ActualControlsProprtyPanelViewModel}">
-				
-			</confviews:ControlPropertyView>
-		</DockPanel>
-	</StackPanel>
+    <UserControl.Resources>
+        <uniDock:DockManager x:Key="TheDockManager" ResizePreview="True"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="400"/>
+        </Grid.ColumnDefinitions>
+
+        <uniDock:RootDockGroup Grid.Column="0" TheDockManager="{StaticResource TheDockManager}" >
+            <uniDock:StackDockGroup TheOrientation="Vertical" HorizontalAlignment="Stretch">
+                <uniDock:DockItem Header="Controls">
+                    <confviews:ControlsToglePanelView />
+                </uniDock:DockItem>
+            </uniDock:StackDockGroup>
+        </uniDock:RootDockGroup>
+
+
+
+        <ScrollViewer
+            Grid.Column="2"
+            HorizontalScrollBarVisibility="Visible">
+            <uniDock:RootDockGroup TheDockManager="{StaticResource TheDockManager}">
+                <uniDock:StackDockGroup TheOrientation="Vertical" HorizontalAlignment="Stretch">
+                    <uniDock:DockItem Header="Properties">
+                        <confviews:ControlPropertyView/>
+                    </uniDock:DockItem>
+                </uniDock:StackDockGroup>
+            </uniDock:RootDockGroup>
+        </ScrollViewer>
+        
+        <confviews:CanvaView Grid.Column="1"/>
+    </Grid>
 </UserControl>
